@@ -26,10 +26,17 @@ Su ligando es la molécula [ETC](https://www.rcsb.org/ligand/ETC). Con este coma
 grep "ETC A" 1L2I.pdb > ETC.pdb
 ```
 
+Como controles negativos usaremos [sulfato](https://drive.google.com/file/d/15TDwcHqx1EcOieZzvgfsxFjJmA4Gz1AG/view?usp=sharing) y [glicerol](https://drive.google.com/file/d/15SyLmHBO6KzTgzOEEv294eXVcIyajEHP/view?usp=sharing). Estás moléculas se seleccionaron pues son cosolutos usados en la crsitalográfia de rayos X y, aunque se observen unidos a proteínas, se espera que su interacción sea inespecífica.
+
+
 # Métodos
 
+# Resultados
 
+# Referencias
 
+# Créditos
 
-## The second largest heading
-###### The smallest heading
+First author [Valeria Montiel Carreon](https://github.com/valemontcar)
+
+Corresponding author [Lenin Domínguez-Ramírez](https://github.com/leninkelvin)
