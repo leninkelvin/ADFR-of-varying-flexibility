@@ -41,7 +41,10 @@ prepare_receptor -r 1L2Ir.pdb -o 1L2Ir.pdbqt -A bonds_hydrogens -U nphs
 ```
 Con esta instrucción se prepara el receptor, también se les agregan los hidrógenos y se colapsan los hidrógenos no polares. 
 
-Con estos dos archivos podemos proceder al docking rígido (0). 
+Con estos dos archivos podemos proceder a la preparación del archivo trg del receptor para el docking rígido (0). 
+```
+agfr -r 1L2Ir.pdbqt -l ETC.pdbqt -o 1L2Ir.trg
+```
  
 # Resultados
 
