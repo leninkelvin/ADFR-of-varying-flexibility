@@ -170,6 +170,7 @@ mode |  affinity  | clust. | ref. | clust. | rmsd | energy | best |
    1         -2.1     0.0     7.3     100     0.3     0.0    025
 ```
 Los resultados son faciles de analizar pues:
+
 Los 100 dockings (cluster size) coinciden (clust. rmsd) y las afinidades son dramáticamente distintas.
 
 # Referencias
