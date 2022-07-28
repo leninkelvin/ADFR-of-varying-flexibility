@@ -28,7 +28,7 @@ Su ligando es la molécula [ETC](https://www.rcsb.org/ligand/ETC). Con este coma
 grep "ETC A" 1L2I.pdb > ETC.pdb
 ```
 
-Como controles negativos usaremos [sulfato](https://drive.google.com/file/d/15TDwcHqx1EcOieZzvgfsxFjJmA4Gz1AG/view?usp=sharing) y [glicerol](https://drive.google.com/file/d/15SyLmHBO6KzTgzOEEv294eXVcIyajEHP/view?usp=sharing). Estás moléculas se seleccionaron pues son cosolutos usados en la crsitalográfia de rayos X y, aunque se observen unidos a proteínas, se espera que su interacción sea inespecífica.
+Como controles negativos usaremos sulfato y glicerol, esos estan incluidos aquí. Estás moléculas se seleccionaron pues son cosolutos usados en la crsitalográfia de rayos X y, aunque se observen unidos a proteínas, se espera que su interacción sea inespecífica.
 
 # Métodos
 
@@ -151,6 +151,26 @@ mode |  affinity  | clust. | ref. | clust. | rmsd | energy | best |
    1        -11.5     0.0     0.7     100     0.2     0.1    045
 Writing poses to ETC_PosCos_out.pdbqt
 ```
+### ¿Cómo se comparan los resultados de los controles?
+
+En este punto el usuario debe repetir los pasos anteriores con el sulfato y el glicerol. 
+
+GOL:
+```
+mode |  affinity  | clust. | ref. | clust. | rmsd | energy | best |
+     | (kcal/mol) | rmsd   | rmsd |  size  | stdv |  stdv  | run  |
+-----+------------+--------+------+--------+------+--------+------+
+   1         -3.6     0.0     5.9     100     0.2     0.0    005
+```
+SO4:
+```
+mode |  affinity  | clust. | ref. | clust. | rmsd | energy | best |
+     | (kcal/mol) | rmsd   | rmsd |  size  | stdv |  stdv  | run  |
+-----+------------+--------+------+--------+------+--------+------+
+   1         -2.1     0.0     7.3     100     0.3     0.0    025
+```
+Los resultados son faciles de analizar pues:
+Los 100 dockings (cluster size) coinciden (clust. rmsd) y las afinidades son dramáticamente distintas.
 
 # Referencias
 
