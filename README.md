@@ -142,6 +142,8 @@ Brevemente la opciones son como sigue:
 
 -r ligando que se usará de referencia para calcular el RMSD del resultado
 
+### Nota del uso de CPU: muchos CPUs tiene hyperthreads. Es un método de planificación de tareas que los sistemas usualmente ven como más núcleos. Para procesos como docking, no ayudan. Para restringuir el uso de CPU de manera eficiente hay que usar el -c n, donde n es el número de cores que deseas usar.
+
 # Resultados
 
 ```
@@ -173,10 +175,71 @@ Los resultados son faciles de analizar pues:
 
 Los 100 dockings (cluster size) coinciden (clust. rmsd) y las afinidades son dramáticamente distintas.
 
+
+# Preparar archivos para docking con residuos flexibles.
+
+1. El archivo 1L2Ir.pdbqt que hemos preparado arriba volverá a ser usado con el comando:
+
+```
+agfrgui
+```
+Este comando, cuando se ejecuta en una computadora MacOS (con Xquartz) o linux (con X11), desplegará una interfaz gráfica. 
+
+![AGFRGUI](https://github.com/leninkelvin/ADFR-of-varying-flexibility/blob/main/AGFRGUI.png)
+
+2. Ahora hay que localizar el 1L2Ir.pdbqt que ya habiamos preparado
+
+![Receptor](https://github.com/leninkelvin/ADFR-of-varying-flexibility/blob/main/Receptor.png)
+
+3. Y, para facilitar el proceso, usaremos el ligando ETC.pdbqt que hemos usado como control positivo arriba. Daremos click en el botón de [ligand] PDBQT...
+
+![LigandReference](https://github.com/leninkelvin/ADFR-of-varying-flexibility/blob/main/LigandReference.png)
+
+4. Ahora, podemos dar click al boton que restringe la caja de docking a nuestro ligando de referencia (enmarcado con un hexágo), luego extender el padding a 8 angstroms (enmarcado por u elipse). Ahora, seleccionar el boton que nos permite indicar una distancia para los residuos laterales (en este caso, el rectangulo).
+
+![Flexible](https://github.com/leninkelvin/ADFR-of-varying-flexibility/blob/main/Flexible.png)
+
+5. Hay que calcular los pockets (elipse).
+
+![Pockets](https://github.com/leninkelvin/ADFR-of-varying-flexibility/blob/main/Pockets.png)
+
+6. Si se van a realizar dockings con una variedad de móleculas se debe seleccionar "for all atom types". Si este paso no se realiza, las rejillas de docking solo funcionarán para los mismo átomos que estan representados en el ligando de referencia.
+
+![Atoms](https://github.com/leninkelvin/ADFR-of-varying-flexibility/blob/main/Atoms.png)
+
+7. Finalmente se generan el "target file" y se salva el archivo.
+
+![Save](https://github.com/leninkelvin/ADFR-of-varying-flexibility/blob/main/Save.png)
+
+8. Ahora podemos ejecutar el comando
+```
+adfr -l ETC.pdbqt -t 1L2Ir-3.trg -J PosCos -c 4 -n 100 -e 2500000 -r ETC.pdbqt -T
+```
+Hay que tener la precaución de seleccionar el "target file" que generamos con residuos flexibles. 
+
+# Resultados, docking flexible
+
+### Control positivo, ETC.
+
+```
+mode |  affinity  | clust. | ref. | clust. | rmsd | energy | best |
+     | (kcal/mol) | rmsd   | rmsd |  size  | stdv |  stdv  | run  |
+-----+------------+--------+------+--------+------+--------+------+
+   1        -12.0     0.0     0.8     100     0.3     0.2    042
+```
+
+### Control negativo, GOL.
+
+```
+adfr -l GOL.pdbqt -t 1L2Ir-3.trg -J PosCos -c 4 -n 100 -e 2500000 -T
+```
+
+```
+
+```
+
 # Referencias
 
 # Créditos
 
-First author [Valeria Montiel Carreon](https://github.com/valemontcar)
-
-Corresponding author [Lenin Domínguez-Ramírez](https://github.com/leninkelvin)
+Author [Lenin Domínguez-Ramírez](https://github.com/leninkelvin)
