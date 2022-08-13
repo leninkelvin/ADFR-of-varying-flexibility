@@ -235,10 +235,19 @@ adfr -l GOL.pdbqt -t 1L2Ir-3.trg -J PosCos -c 4 -n 100 -e 2500000 -T
 ```
 
 ```
-
+mode |  affinity  | clust. | ref. | clust. | rmsd | energy | best |
+     | (kcal/mol) | rmsd   | rmsd |  size  | stdv |  stdv  | run  |
+-----+------------+--------+------+--------+------+--------+------+
+   1         -4.3     0.0    -1.0      44     0.5     0.1    080
+   2         -4.0     2.5    -1.0       2     0.1     0.0    019
+   3         -4.0     8.1    -1.0      52     0.3     0.1    039
+   4         -3.9     6.9    -1.0       2     0.1     0.0    066
 ```
+Ninguno de los dos resultados es mucho mejor que el rigido. Claro, son controles postivos y negativos, respectivamente. Pero, ahora ya saben como hacer sus propias pruebas.
 
 # Referencias
+
+[ADFR](https://ccsb.scripps.edu/adfr/)
 
 # Créditos
 
