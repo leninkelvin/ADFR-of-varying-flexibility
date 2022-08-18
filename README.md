@@ -1,3 +1,7 @@
+![GitHub all releases](https://img.shields.io/github/downloads/leninkelvin/ADFR-of-varying-flexibility/total?style=for-the-badge&logo=appveyor)
+![GitHub forks](https://img.shields.io/github/forks/leninkelvin/ADFR-of-varying-flexibility?style=for-the-badge&logo=appveyor)
+![GitHub Repo stars](https://img.shields.io/github/stars/leninkelvin/ADFR-of-varying-flexibility?style=for-the-badge&logo=appveyor)
+
 # ADFR, docking con flexibilidad de cadenas laterales.
 Estos archivos conforman las instrucciones básicas para realizar docking con ADFR con un receptor rígido. Además se agregan instrucciones para realizar dockings con cadenas laterales flexibles. 
 Se usará ADFR para el docking, se puede descargar [aquí](https://ccsb.scripps.edu/adfr/).
