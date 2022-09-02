@@ -204,7 +204,7 @@ Hay que tener la precaución de seleccionar el "target file" que generamos con r
 mode |  affinity  | clust. | ref. | clust. | rmsd | energy | best |
      | (kcal/mol) | rmsd   | rmsd |  size  | stdv |  stdv  | run  |
 -----+------------+--------+------+--------+------+--------+------+
-   1        -12.0     0.0     0.8     100     0.3     0.2    042
+   1        -12.1     0.0     0.7     100     0.3     0.3    006
 ```
 
 ### Control negativo, GOL.
