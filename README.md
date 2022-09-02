@@ -15,7 +15,7 @@ Las cadenas laterales flexibles se seleccionan usando la interfaz gráfica agfrg
 # Introdución
 
 # Material
-### Advertencia: estas instricciones son generale y simplificadas, no representan el mejor flujo de trabajo ni el úico posible. 
+### Advertencia: estas instrucciones son generales y simplificadas, no representan el mejor flujo de trabajo ni el úico posible. Sin embargo, deben funcionar cuando se siguen. 
 
 Se usará ADFR para el docking, se puede descargar [aquí](https://ccsb.scripps.edu/adfr/). Nosotros instalamos **ADFR** en /opt/ADFR de manera que:
 ```
@@ -38,67 +38,42 @@ Como controles negativos usaremos sulfato y glicerol, esos estan incluidos aquí
 
 ### Preparación de los archivos
 
-Primero, cualquier tipo de molécula al formato PDBQT: 
+Los archivos del RCSB no son perfectos, y algunas imperfecciones son sufientes como para causar errores en el procedimiento de docking. Para corregir automaticamente algunos de estos errores, usaremos [UCSF Chimera](https://www.cgl.ucsf.edu/chimera/). Usando Chimera, abriremos el PDB que creamos arriba, 1L2Ir.pdb, y lo procesaremos con la herramienta *Energy Minimization* . Ah, pero primero selecciona la cadena A y luego invierte la selección parar borrar todas las cadenas excepto la A. 
+
+![select](https://github.com/leninkelvin/ADFR-of-varying-flexibility/blob/main/select.png)
+
+![invert](https://github.com/leninkelvin/ADFR-of-varying-flexibility/blob/main/invert.png)
+
+![delete](https://github.com/leninkelvin/ADFR-of-varying-flexibility/blob/main/delete.png)
+
+Después de estos pasos, procedemos a la minimización.
+
+![minimize](https://github.com/leninkelvin/ADFR-of-varying-flexibility/blob/main/minimize.png)
+
+Estos setting son los que yo recomiendo pero pueden ser modificados.
+
+![basic](https://github.com/leninkelvin/ADFR-of-varying-flexibility/blob/main/basic.png)
+
+Estos settings también son los que recomiendo. Es importante borrar las moléculas de agua, en el caso de nuestro ejemplo ya borramos los ligandos.
+
+![dockprep](https://github.com/leninkelvin/ADFR-of-varying-flexibility/blob/main/dockprep.png)
+
+![hydrogens](https://github.com/leninkelvin/ADFR-of-varying-flexibility/blob/main/hydrogens.png)
+
+Ahora, a salvar el archivo:
+
+![edited](https://github.com/leninkelvin/ADFR-of-varying-flexibility/blob/main/edited.png)
+
+Listo ahora a convertir el ligando al formato PDBQT: 
 ```
 prepare_ligand -l ETC.pdb -o ETC.pdbqt -A bonds_hydrogens
 ```
 Con esta instrucción se agregan los hidrógenos. Esto podría no ser necesario si los ligandos provienen de una base de datos particular. Los ligandos obtenidos del RCSB si requieren esa adición.
 
 ```
-prepare_receptor -r 1L2Ir.pdb -o 1L2Ir.pdbqt -A bonds_hydrogens -U nphs
+prepare_receptor -r 1L2Ire.pdb -o 1L2Ir.pdbqt -A bonds_hydrogens -U nphs
 ```
-Con esta instrucción se prepara el receptor, también se les agregan los hidrógenos y se colapsan los hidrógenos no polares. El PDB 1L2I tiene residuos en conformaciones alternas. Hay que hacer un poco de procesamiento antes de preparar el archivo.
-Con un editor de texto hay que encontrar el residuo 363 en el 1L2Ir.pdbqt . Esta sección se verá así:
-```
-ATOM    527  NH1AARG A 363      29.043  -5.901  -9.388  0.50 30.05    -0.235 N
-ATOM    528  HH1A1ARG A 363      28.133  -6.304  -9.611  1.00  0.00     0.174 HD
-ATOM    529  HH1A2ARG A 363      29.484  -5.248 -10.036  1.00  0.00     0.174 HD
-ATOM    530  NH2AARG A 363      30.833  -5.709  -7.967  0.50 28.49    -0.235 N
-ATOM    531  HH2A1ARG A 363      31.301  -5.964  -7.097  1.00  0.00     0.174 HD
-ATOM    532  HH2A2ARG A 363      31.274  -5.056  -8.615  1.00  0.00     0.174 HD
-ATOM    533  N   VAL A 364      26.412  -8.560  -1.859  1.00 39.91    -0.346 N
-```
-Hay que editar esa sección para que se vea así:
-```
-ATOM    527  NH1 ARG A 363      29.043  -5.901  -9.388  0.50 30.05    -0.235 N
-ATOM    528  HH1 ARG A 363      28.133  -6.304  -9.611  1.00  0.00     0.174 HD
-ATOM    529  HH1 ARG A 363      29.484  -5.248 -10.036  1.00  0.00     0.174 HD
-ATOM    530  NH2 ARG A 363      30.833  -5.709  -7.967  0.50 28.49    -0.235 N
-ATOM    531  HH2 ARG A 363      31.301  -5.964  -7.097  1.00  0.00     0.174 HD
-ATOM    532  HH2 ARG A 363      31.274  -5.056  -8.615  1.00  0.00     0.174 HD
-ATOM    533  N   VAL A 364      26.412  -8.560  -1.859  1.00 39.91    -0.346 N
-```
-O, pueden copiar esta sección reemplazando la del archivo original.
-Hay que repetir este procedimiento con las líneas:
-```
-ATOM   3827  NZ ALYS B 492      25.504   6.756  35.651  0.50 42.62    -0.079 N 
-ATOM   3828  HZ A1LYS B 492      25.407   7.738  35.394  1.00  0.00     0.274 HD
-ATOM   3829  HZ A2LYS B 492      25.646   6.642  36.655  1.00  0.00     0.274 HD
-ATOM   3830  HZ A3LYS B 492      24.620   6.254  35.562  1.00  0.00     0.274 HD
-ATOM   3831  N   ALA B 493      28.617   0.862  31.925  1.00 36.38    -0.346 N 
-```
-para que se vea así:
-```
-ATOM   3827  NZ  LYS B 492      25.504   6.756  35.651  0.50 42.62    -0.079 N 
-ATOM   3828  HZ  LYS B 492      25.407   7.738  35.394  1.00  0.00     0.274 HD
-ATOM   3829  HZ  LYS B 492      25.646   6.642  36.655  1.00  0.00     0.274 HD
-ATOM   3830  HZ  LYS B 492      24.620   6.254  35.562  1.00  0.00     0.274 HD
-ATOM   3831  N   ALA B 493      28.617   0.862  31.925  1.00 36.38    -0.346 N 
-```
-Y, finalmente:
-```
-ATOM   4231  ND2AASN B 532     -17.821  -8.039  15.517  0.50 63.29    -0.370 N 
-ATOM   4232  HD2A1ASN B 532     -18.059  -7.092  15.222  1.00  0.00     0.159 HD
-ATOM   4233  HD2A2ASN B 532     -16.883  -8.266  15.847  1.00  0.00     0.159 HD
-ATOM   4234  N   VAL B 533     -15.457 -12.076  17.250  1.00 64.95    -0.346 N 
-```
-Que se vea así:
-```
-ATOM   4231  ND2 ASN B 532     -17.821  -8.039  15.517  0.50 63.29    -0.370 N 
-ATOM   4232  HD21ASN B 532     -18.059  -7.092  15.222  1.00  0.00     0.159 HD
-ATOM   4233  HD22ASN B 532     -16.883  -8.266  15.847  1.00  0.00     0.159 HD
-ATOM   4234  N   VAL B 533     -15.457 -12.076  17.250  1.00 64.95    -0.346 N 
-```
+Con esta instrucción se prepara el receptor, también se les agregan los hidrógenos y se colapsan los hidrógenos no polares. El PDB 1L2I tiene residuos en conformaciones alternas. 
 
 ### Preparación del receptor para el docking
 Con estos dos archivos podemos proceder a la preparación del archivo trg del receptor para el docking rígido (0). 
@@ -154,7 +129,7 @@ Brevemente la opciones son como sigue:
 mode |  affinity  | clust. | ref. | clust. | rmsd | energy | best |
      | (kcal/mol) | rmsd   | rmsd |  size  | stdv |  stdv  | run  |
 -----+------------+--------+------+--------+------+--------+------+
-   1        -11.5     0.0     0.7     100     0.2     0.1    045
+   1        -11.0     0.0     0.7     100     0.2     0.1    041
 Writing poses to ETC_PosCos_out.pdbqt
 ```
 ### ¿Cómo se comparan los resultados de los controles?
@@ -217,7 +192,7 @@ Este comando, cuando se ejecuta en una computadora MacOS (con Xquartz) o linux (
 
 8. Ahora podemos ejecutar el comando
 ```
-adfr -l ETC.pdbqt -t 1L2Ir-3.trg -J PosCos -c 4 -n 100 -e 2500000 -r ETC.pdbqt -T
+adfr -l ETC.pdbqt -t 1L2Ir3.trg -J PosCosR -c 4 -n 100 -e 2500000 -r ETC.pdbqt -T
 ```
 Hay que tener la precaución de seleccionar el "target file" que generamos con residuos flexibles. 
 
@@ -235,7 +210,7 @@ mode |  affinity  | clust. | ref. | clust. | rmsd | energy | best |
 ### Control negativo, GOL.
 
 ```
-adfr -l GOL.pdbqt -t 1L2Ir-3.trg -J PosCos -c 4 -n 100 -e 2500000 -T
+adfr -l GOL.pdbqt -t 1L2Ir3.trg -J PosCosR -c 4 -n 100 -e 2500000 -T
 ```
 
 ```
